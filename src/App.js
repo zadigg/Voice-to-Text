@@ -55,8 +55,8 @@ function App() {
   return (
     <div className="bg-gray-200 h-[100vh]">
       <h1 className="text-[25px] font-bold p-8">Voice Notes</h1>
-      <div className="w-[90%] mx-auto flex  space-x-5 ">
-        <div className="w-1/2 bg-white h-[343px] p-6  shadow-xl shadow-zinc-700 rounded-md">
+      <div className="w-[90%] mx-auto sm:flex space-y-5  sm:space-x-5 sm:space-y-0 ">
+        <div className="sm:w-1/2 bg-white h-[343px] p-6  shadow-xl shadow-zinc-700 rounded-md">
           <h2 className="text-[20px] font-bold pb-6 ">Current Note</h2>
           <div className="flex justify-between items-center">
             <div>{isListening ? <span>🎙</span> : <span>🛑</span>}</div>
@@ -79,7 +79,7 @@ function App() {
           <p>{note}</p>
         </div>
 
-        <div className="w-1/2 bg-white h-[343px] p-6">
+        <div className="sm:w-1/2 bg-white h-[343px] p-6  shadow-xl shadow-zinc-700 rounded-md">
           <h2 className="text-[20px] font-bold pb-6 ">Notes</h2>
           {savedNotes.map((n) => (
             <p key={n}>{n}</p>
