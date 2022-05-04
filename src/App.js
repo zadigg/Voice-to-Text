@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState, useEffect } from "react";
+import options from "./Languages";
 
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -11,6 +12,7 @@ mic.lang = "en-US";
 // https://ourcodeworld.com/articles/read/362/getting-started-with-the-speech-recognition-api-in-javascript
 
 function App() {
+  const [language, setLanguage] = useState("en-US");
   const [isListening, setIsListening] = useState(false);
   const [note, setNote] = useState(null);
   const [savedNotes, setSavedNotes] = useState([]);
@@ -19,13 +21,13 @@ function App() {
     handleListen();
   }, [isListening]);
 
+  function handleLanguageChange(e) {
+    setLanguage(e.target.value);
+  }
   const handleListen = () => {
     if (isListening) {
+      mic.lang = language;
       mic.start();
-      mic.onend = () => {
-        console.log("continue");
-        mic.start();
-      };
     } else {
       mic.stop();
       mic.onend = () => {
@@ -54,7 +56,27 @@ function App() {
   };
   return (
     <div className="bg-gray-200 h-[100vh]">
-      <h1 className="text-[25px] font-bold p-8">Voice Notes</h1>
+      <h1 className="text-[25px] font-bold p-8">Voice Notes {language}</h1>
+      <div className="px-8 pb-5">
+        <select
+          value={language}
+          onChange={handleLanguageChange}
+          className=" appearance-none block w-[20%] px-3 py-1.5  text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition  ease-in-out m-0
+      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+        >
+          {options.map((option) =>
+            option.countryCodes.map((country) => (
+              <option key={country.country} value={country.langCode}>
+                {option.language === "English" ||
+                option.language === "Español" ||
+                option.language === "Português"
+                  ? country.country
+                  : option.language}
+              </option>
+            ))
+          )}
+        </select>
+      </div>
       <div className="w-[90%] mx-auto sm:flex space-y-5  sm:space-x-5 sm:space-y-0 ">
         <div className="sm:w-1/2 bg-white h-[343px] p-6  shadow-xl shadow-zinc-700 rounded-md">
           <h2 className="text-[20px] font-bold pb-6 ">Current Note</h2>
