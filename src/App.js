@@ -9,7 +9,7 @@ mic.continuous = true;
 mic.interimResults = true;
 mic.lang = "en-US";
 // u can change the mic language to the language u want
-// https://ourcodeworld.com/articles/read/362/getting-started-with-the-speech-recognition-api-in-javascript
+//ourcodeworld.com/articles/read/362/getting-started-with-the-speech-recognition-api-in-javascript
 
 function App() {
   const [language, setLanguage] = useState("en-US");
@@ -17,6 +17,15 @@ function App() {
   const [note, setNote] = useState(null);
   const [savedNotes, setSavedNotes] = useState([]);
 
+  var str = "";
+
+  if (savedNotes.length > 0) {
+    for (var i = 0; i < savedNotes.length; i++) {
+      str += savedNotes[i] + "\n";
+    }
+  }
+
+  console.log(str);
   useEffect(() => {
     handleListen();
   }, [isListening]);
@@ -102,7 +111,17 @@ function App() {
         </div>
 
         <div className="sm:w-1/2 bg-white h-[343px] p-6  shadow-xl shadow-zinc-700 rounded-md">
-          <h2 className="text-[20px] font-bold pb-6 ">Notes</h2>
+          <div className="flex items-center justify-between ">
+            <div className="text-[20px] font-bold pb-6">Notes</div>
+            <div
+              className="bg-gray-100 px-2 py-1 rounded-md hover:animate-pulse cursor-pointer"
+              onClick={() => {
+                navigator.clipboard.writeText(str);
+              }}
+            >
+              Copy
+            </div>
+          </div>
           {savedNotes.map((n) => (
             <p key={n}>{n}</p>
           ))}
